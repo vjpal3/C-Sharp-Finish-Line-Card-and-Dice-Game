@@ -8,7 +8,7 @@ namespace FinishLine
 {
     class Player
     {
-        private int position = 0;
+        private int position = -1;
 
         public void Move(int newPosition)
         {
