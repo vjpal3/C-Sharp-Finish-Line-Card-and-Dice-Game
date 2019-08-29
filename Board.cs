@@ -22,6 +22,15 @@ namespace FinishLine
             deck = new Deck(new int[] { 1, 2, 3, 4, 5, 6, 7 });
         }
 
+        public void ValidateDeck(Random rand)
+        {
+
+            while (restrictedCards.Contains(deck.Cards[0].Value) || restrictedCards.Contains(deck.Cards[1].Value) || restrictedCards.Contains(deck.Cards[deck.Cards.Count - 1].Value) || restrictedCards.Contains(deck.Cards[deck.Cards.Count - 2].Value))
+            {
+                RandomExtensions.Shuffle(rand, deck.Cards);
+            }
+        }
+
         public void MoveMarker(Player player)
         {
             var dieValue = die.DieSides[0];
@@ -38,7 +47,7 @@ namespace FinishLine
         public string StartGame(Random rand)
         {
             deck.Shuffle(rand);          
-            deck.ValidateDeck(rand, restrictedCards);           
+            this.ValidateDeck(rand);           
             deck.ShowDeck();
 
             int p1 = 0, p2 = 0;
