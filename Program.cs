@@ -10,6 +10,8 @@ namespace FinishLine
     {
         static void Main(string[] args)
         {
+            var rand = new Random();
+            
         }
     }
 }
