@@ -17,8 +17,8 @@ namespace FinishLine
 
         public MultiMarkersBoard()
         {
-            player1 = new Player();
-            player2 = new Player();
+            player1 = new Player(new string[] { "M11", "M12", "M13" });
+            player2 = new Player(new string[] { "M21", "M22", "M23" });
             blackDie = new Die(6);
             redDie = new Die(6);
             deck = new Deck();
