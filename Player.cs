@@ -8,16 +8,21 @@ namespace FinishLine
 {
     class Player
     {
+        
         private int position = -1;
-        private string marker1, marker2, marker3;
+
+        public Marker marker1, marker2, marker3;
 
         public Player() { }
-        public Player(string[] markers)
+
+        public Player(string[] markerNames)
         {
-            marker1 = markers[0];
-            marker2 = markers[1];
-            marker3 = markers[2];
+            marker1 = new Marker(markerNames[0]);
+            marker2 = new Marker(markerNames[1]);
+            marker3 = new Marker(markerNames[2]);
+            
         }
+        
         public void Move(int newPosition)
         {
             this.position = newPosition;

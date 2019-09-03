@@ -40,10 +40,15 @@ namespace FinishLine
 
         public void ShowDeck()
         {
+            
             for (int i = 0; i < Cards.Count; i++)
             {
-                Console.WriteLine(Cards[i].Suit + " " + Cards[i].Value);
+                if(i % 9 == 0)
+                    Console.WriteLine("\n\n");
+                Console.Write(Cards[i].Suit + " " + Cards[i].Value + "      ");
+               
             }
+            Console.WriteLine();
         }
        
 

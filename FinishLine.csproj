@@ -47,6 +47,7 @@
     <Compile Include="Card.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Die.cs" />
+    <Compile Include="Marker.cs" />
     <Compile Include="MultiMarkersBoard.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
@@ -57,4 +58,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>if exist "$(TargetPath).locked" del "$(TargetPath).locked"
+if not exist "$(TargetPath).locked" move "$(TargetPath)" "$(TargetPath).locked"
+
+</PreBuildEvent>
+  </PropertyGroup>
 </Project>
