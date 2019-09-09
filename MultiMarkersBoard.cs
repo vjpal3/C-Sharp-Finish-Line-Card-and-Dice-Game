@@ -17,8 +17,8 @@ namespace FinishLine
 
         public MultiMarkersBoard()
         {
-            player1 = new Player(new string[] { "1A", "1B", "1C" });
-            player2 = new Player(new string[] { "2A", "2B", "2C" });
+            player1 = new Player("Player1", new string[] { "1A", "1B", "1C" });
+            player2 = new Player("Player2", new string[] { "2A", "2B", "2C" });
             blackDie = new Die(6);
             redDie = new Die(6);
             deck = new Deck();
@@ -38,6 +38,9 @@ namespace FinishLine
             var count = 0;
             var rowStr = "";
             var row = 0;
+            var positionPlayer1 = player1.marker1.GetPosition();
+            var positionPlayer2 = player2.marker1.GetPosition();
+
             while (count <= deck.Cards.Count - 9)
             {
                 int i;
@@ -49,8 +52,11 @@ namespace FinishLine
                         cardStr += " ";
                     rowStr += cardStr;
                 }
-                rowStr += PrintPlayer(player1, row);
-                rowStr += PrintPlayer(player2, row);                
+                if (row == positionPlayer1 / 9)
+                    rowStr += PrintPlayer(player1);
+                if (row == positionPlayer2 / 9)
+                    rowStr += PrintPlayer(player2);
+                          
                 count += 9;
                 row++;
                 Console.WriteLine(rowStr);
@@ -60,19 +66,23 @@ namespace FinishLine
             
         }
 
-        private string PrintPlayer(Player player, int row)
-        {
-            var positionPlayer = player.marker1.GetPosition();
-            var rowStr = "";
-            if (row == positionPlayer / 9)
+        private string PrintPlayer(Player player)
+        {            
+            var rowStr = "\n";
+            var position = player.marker1.GetPosition();
+            
+            if((position / 9) >= 1)
             {
-                rowStr += "\n";
-                for (var k = 0; k < positionPlayer * 15; k++)
-                {
-                    rowStr += " ";
-                }
-                rowStr += player.marker1.name;
+                rowStr += "\n\n";
+                position %= 9;
+                //position--;
             }
+
+            for (var k = 0; k < position * 12; k++)
+            {
+                rowStr += " ";
+            }
+            rowStr += player.marker1.name;           
             return rowStr;
         }
 
@@ -82,10 +92,11 @@ namespace FinishLine
             var redValue = redDie.DieSides[0];
             var blackValue = blackDie.DieSides[0];
             var stopValue = redValue + blackValue;
+            Console.WriteLine(player.Name + " turn");
             Console.WriteLine("Red Die: {0}, Black Die: {1}, Stop Value: {2}", redValue, blackValue, stopValue);
             Console.WriteLine();
 
-            for (int i = player.GetPosition() + 1; i < deck.Cards.Count; i++)
+            for (int i = player.marker1.GetPosition()+1; i < deck.Cards.Count; i++)
             {
                 if (deck.Cards[i].Value >= stopValue)
                 {
@@ -109,20 +120,20 @@ namespace FinishLine
                 blackDie.RollDie(rand);            
                 if (firstTurn)
                 {
-                    Console.WriteLine("P1 turn");
                     MoveMarker(player1);
                 }
                 else
-                {
-                    Console.WriteLine("P2 turn");
+                {                   
                     MoveMarker(player2);
                 }
                 firstTurn = !firstTurn;
-                Console.ReadLine();
+                
                 if (player1.marker1.GetPosition() >= deck.Cards.Count - 1 || player2.marker1.GetPosition() >= deck.Cards.Count - 1)
                     break;
-            }        
-            return "";
+
+                Console.ReadLine();
+            }
+            return player1.marker1.GetPosition() > player2.marker1.GetPosition() ? "Player1 Wins" : "Player2 Wins"; 
         }
     }
 }
