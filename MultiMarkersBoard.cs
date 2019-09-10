@@ -103,7 +103,7 @@ namespace FinishLine
                     ShowBoard();
                     break;
                 }
-                else if(i == deck.Cards.Count - 1)
+                else if(i >= deck.Cards.Count - 1)
                 {
                     player.marker1.SetPosition(i);
                     ShowBoard();
@@ -132,9 +132,12 @@ namespace FinishLine
                     MoveMarker(player2);
                 }
                 firstTurn = !firstTurn;
-                
+
                 //if (player1.marker1.GetPosition() >= deck.Cards.Count - 1 || player2.marker1.GetPosition() >= deck.Cards.Count - 1)
-                if (player1.marker1.GetPosition() >= deck.Cards.Count || player2.marker1.GetPosition() >= deck.Cards.Count)
+                Console.WriteLine("Player1: " + player1.marker1.GetPosition());
+                Console.WriteLine("Player2: " + player2.marker1.GetPosition());
+
+                if (player1.marker1.GetPosition() >= deck.Cards.Count - 1 || player2.marker1.GetPosition() >= deck.Cards.Count - 1)
                     break;
 
                 Console.ReadLine();
