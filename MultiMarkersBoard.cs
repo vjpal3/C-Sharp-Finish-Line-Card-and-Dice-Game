@@ -36,7 +36,7 @@ namespace FinishLine
         public void ShowBoard()
         {                                            
             var count = 0;
-            var rowStr = "";
+            var rowStr = new StringBuilder();
             var row = 0;
             var positionPlayer1 = player1.marker1.GetPosition();
             var positionPlayer2 = player2.marker1.GetPosition();
@@ -50,40 +50,39 @@ namespace FinishLine
                     var addSpaces = 12 - cardStr.Length;
                     for (var j = 0; j < addSpaces; j++)
                         cardStr += " ";
-                    rowStr += cardStr;
+                    rowStr.Append(cardStr);
                 }
                 if (row == positionPlayer1 / 9)
-                    rowStr += PrintPlayer(player1);
+                    rowStr.Append(PrintPlayer(player1));
                 if (row == positionPlayer2 / 9)
-                    rowStr += PrintPlayer(player2);
-                          
+                    rowStr.Append(PrintPlayer(player2));
+
                 count += 9;
                 row++;
                 Console.WriteLine(rowStr);
                 Console.WriteLine("\n");
-                rowStr = "";
+                rowStr.Clear();
             }
-            
         }
 
         private string PrintPlayer(Player player)
         {            
-            var rowStr = "\n";
+            var rowStr = new StringBuilder("\n");
             var position = player.marker1.GetPosition();
             
             if((position / 9) >= 1)
             {
-                rowStr += "\n\n";
+                rowStr.Append("\n\n");
                 position %= 9;
                 //position--;
             }
 
             for (var k = 0; k < position * 12; k++)
             {
-                rowStr += " ";
+                rowStr.Append(" ");
             }
-            rowStr += player.marker1.name;           
-            return rowStr;
+            rowStr.Append(player.marker1.name);           
+            return rowStr.ToString();
         }
 
         public void MoveMarker(Player player)
@@ -99,6 +98,12 @@ namespace FinishLine
             for (int i = player.marker1.GetPosition()+1; i < deck.Cards.Count; i++)
             {
                 if (deck.Cards[i].Value >= stopValue)
+                {
+                    player.marker1.SetPosition(i);
+                    ShowBoard();
+                    break;
+                }
+                else if(i == deck.Cards.Count - 1)
                 {
                     player.marker1.SetPosition(i);
                     ShowBoard();
@@ -128,7 +133,8 @@ namespace FinishLine
                 }
                 firstTurn = !firstTurn;
                 
-                if (player1.marker1.GetPosition() >= deck.Cards.Count - 1 || player2.marker1.GetPosition() >= deck.Cards.Count - 1)
+                //if (player1.marker1.GetPosition() >= deck.Cards.Count - 1 || player2.marker1.GetPosition() >= deck.Cards.Count - 1)
+                if (player1.marker1.GetPosition() >= deck.Cards.Count || player2.marker1.GetPosition() >= deck.Cards.Count)
                     break;
 
                 Console.ReadLine();
